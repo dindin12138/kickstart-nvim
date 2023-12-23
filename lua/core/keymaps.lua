@@ -2,25 +2,25 @@
 -- not create a keymap if a lazy key handler exists.
 -- It will also set `silent` to true by default.
 local function map(mode, lhs, rhs, opts)
-    local keys = require("lazy.core.handler").handlers.keys
-    ---@cast keys LazyKeysHandler
-    local modes = type(mode) == "string" and { mode } or mode
+  local keys = require("lazy.core.handler").handlers.keys
+  ---@cast keys LazyKeysHandler
+  local modes = type(mode) == "string" and { mode } or mode
 
-    ---@param m string
-    modes = vim.tbl_filter(function(m)
-        return not (keys.have and keys:have(lhs, m))
-    end, modes)
+  ---@param m string
+  modes = vim.tbl_filter(function(m)
+    return not (keys.have and keys:have(lhs, m))
+  end, modes)
 
-    -- do not create the keymap if a lazy keys handler exists
-    if #modes > 0 then
-        opts = opts or {}
-        opts.silent = opts.silent ~= false
-        if opts.remap and not vim.g.vscode then
-            ---@diagnostic disable-next-line: no-unknown
-            opts.remap = nil
-        end
-        vim.keymap.set(modes, lhs, rhs, opts)
+  -- do not create the keymap if a lazy keys handler exists
+  if #modes > 0 then
+    opts = opts or {}
+    opts.silent = opts.silent ~= false
+    if opts.remap and not vim.g.vscode then
+      ---@diagnostic disable-next-line: no-unknown
+      opts.remap = nil
     end
+    vim.keymap.set(modes, lhs, rhs, opts)
+  end
 end
 
 -- better up/down
@@ -73,3 +73,20 @@ map("n", "<leader>lz", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Neotree
 map("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Explorer NeoTree" })
+
+-- Telescope
+map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
+map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+map(
+  "n",
+  "<leader>fa",
+  "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<cr>",
+  { desc = "Find all files" }
+)
+map("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>", { desc = "Oldfiles" })
+map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help page" })
+map("n", "<leader>fc", "<cmd>Telescope git_commits<cr>", { desc = "Git commits" })
+map("n", "<leader>fs", "<cmd>Telescope git_status<cr>", { desc = "Git status" })
+map("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
+
