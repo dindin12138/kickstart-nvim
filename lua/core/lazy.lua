@@ -13,4 +13,4 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Any lua file in ~/.config/nvim/lua/plugins/*.lua will be automatically merged
 -- See https://github.com/folke/lazy.nvim#-structuring-your-plugins
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", { git = { url_format = "git@github.com:%s.git" } })
